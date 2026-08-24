@@ -97,4 +97,4 @@ Visit **http://127.0.0.1:8000/** in your browser. Allow camera and microphone ac
 
 ## Team
 
-Built by Ch. Deepika, Kuppa Ksheeraja Manaswini, Darshitha, Harika, and Sirivennela.
+Built by Kuppa Ksheeraja Manaswini, Darshitha, Harika, and Sirivennela.
