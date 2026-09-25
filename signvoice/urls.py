@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from homepage.views import homePage, recognise, suggest_words
+from homepage.views import homePage, recognise, suggest_words, translate
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homePage, name='home'),
     path('home/', homePage, name='home2'),
     path('recognise/', recognise, name='recognise'),
-    path('suggest_words/', suggest_words, name='suggest_words')
+    path('suggest_words/', suggest_words, name='suggest_words'),
+    path('translate/', translate, name='translate')
 ]

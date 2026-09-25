@@ -18,6 +18,8 @@ from tensorflow import keras
 import pandas as pd
 import string
 import enchant
+import urllib.request
+import urllib.error
 
 def homePage(request):
     return render(request, 'index.html')
@@ -544,6 +546,31 @@ def suggest_words(request):
                 word3 = " "
                 word4 = " "
         return JsonResponse({"word1": word1, "word2": word2, "word3": word3, "word4": word4}, safe=False, status=200)
+
+
+@csrf_exempt
+def translate(request):
+    """Proxy text translation through RapidAPI so the API key stays on the server."""
+    api_key = os.environ.get("RAPIDAPI_KEY")
+    if not api_key:
+        return JsonResponse({"error": "RAPIDAPI_KEY is not set"}, status=500)
+    data = json.loads(request.body)
+    payload = json.dumps({"text": data["text"], "to": data["to"], "from": data["from"]}).encode()
+    req = urllib.request.Request(
+        "https://google-translate113.p.rapidapi.com/api/v1/translator/text",
+        data=payload,
+        method="POST",
+        headers={
+            "content-type": "application/json",
+            "X-RapidAPI-Host": "google-translate113.p.rapidapi.com",
+            "X-RapidAPI-Key": api_key,
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            return JsonResponse(json.loads(resp.read()), status=200)
+    except urllib.error.URLError:
+        return JsonResponse({"error": "Translation request failed"}, status=502)
 
 
 def calc_landmark_list(image, landmarks):

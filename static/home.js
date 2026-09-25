@@ -205,25 +205,16 @@ $("#languageOptions").change(function(){
     {
         $("#voiceOptions").html("<option data-lang='hi-IN' data-name='Google हिन्दी'>Google हिन्दी</option>");
         window.speakText = $("#speakText").val();
-        const settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://google-translate113.p.rapidapi.com/api/v1/translator/text",
-            "method": "POST",
-            "headers": {
-                "content-type": "application/json",
-                "X-RapidAPI-Host": "google-translate113.p.rapidapi.com",
-                "X-RapidAPI-Key": "YOUR_RAPIDAPI_KEY"
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/translate/",
+            data: JSON.stringify({text: $("#speakText").val(), to: "hi", from: "en"}),
+            success: function(response)
+            {
+                $("#speakText").val(response['trans']);
             },
-            processData: false,
-            "data": JSON.stringify({
-                "text": $("#speakText").val(),
-                "to": "hi",
-                "from": "en"
-            })
-        };
-        $.ajax(settings).done(function(response){
-            $("#speakText").val(response['trans']);
+            dataType: "json"
         });
     }
 });

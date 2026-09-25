@@ -29,7 +29,7 @@ signvoice/
 ├── manage.py                 # Django entry point
 ├── signvoice/                 # Django project config (settings, urls)
 ├── homepage/                  # Main app: views, recognition logic, trained models
-│   ├── views.py               #   ASL/ISL recognition + word-suggestion endpoints
+│   ├── views.py               #   ASL/ISL recognition, word-suggestion + translation endpoints
 │   ├── cnn8grps_rad1_model.h5 #   ASL recognition model
 │   └── model.h5                #   ISL recognition model
 ├── templates/index.html       # Single-page frontend
@@ -79,12 +79,18 @@ mysql -u root -e "CREATE DATABASE signvoice;"
 ```
 Database credentials are configured in [`signvoice/settings.py`](signvoice/settings.py) (defaults to user `root`, no password, matching a fresh local MySQL install). Update them there if your setup differs.
 
-**5. Run migrations**
+**5. Add your API key**
+```bash
+cp .env.example .env
+```
+Open `.env` and replace `your-rapidapi-key-here` with your own [RapidAPI](https://rapidapi.com/) key (subscribe to the free **Google Translate 113** API). This powers the English → Hindi translation in the speech feature; everything else works without it. `.env` is git-ignored, so the key stays on your machine and is only used by the Django server, never sent to the browser.
+
+**6. Run migrations**
 ```bash
 python manage.py migrate
 ```
 
-**6. Start the server**
+**7. Start the server**
 ```bash
 python manage.py runserver
 ```
