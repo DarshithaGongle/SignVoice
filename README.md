@@ -85,6 +85,8 @@ cp .env.example .env
 ```
 Open `.env` and replace `your-rapidapi-key-here` with your own [RapidAPI](https://rapidapi.com/) key (subscribe to the free **Google Translate 113** API). This powers the English → Hindi translation in the speech feature; everything else works without it. `.env` is git-ignored, so the key stays on your machine and is only used by the Django server, never sent to the browser.
 
+`DJANGO_SECRET_KEY` in `.env` is optional for local development. Leave it blank and a random one is used. Set one (the command is in `.env.example`) for any real deployment.
+
 **6. Run migrations**
 ```bash
 python manage.py migrate
